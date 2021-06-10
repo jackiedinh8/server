@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2020-2021, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -72,7 +72,7 @@ source ../common/util.sh
 rm -f $SERVER_LOG_BASE* $CLIENT_LOG_BASE*
 RET=0
 
-BACKENDS="graphdef savedmodel onnx libtorch plan"
+BACKENDS="graphdef savedmodel onnx plan"
 
 # Construct model repository
 mkdir -p models
