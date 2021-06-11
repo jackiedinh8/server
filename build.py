@@ -1223,9 +1223,15 @@ if __name__ == '__main__':
     # Build the core server. For now the core is contained in this
     # repo so we just build in place
     if True:
-        repo_build_dir = os.path.join(FLAGS.build_dir, 'tritonserver', 'build')
-        repo_install_dir = os.path.join(FLAGS.build_dir, 'tritonserver',
-                                        'install')
+        #repo_build_dir = os.path.join(FLAGS.build_dir, 'tritonserver', 'build')
+        repo_build_dir = os.path.join(FLAGS.build_dir)
+
+        if FLAGS.install_dir is None:
+            repo_install_dir = os.path.join(FLAGS.build_dir, 'tritonserver',
+                                           'install')
+        else:
+            repo_install_dir = FLAGS.install_dir
+
 
         mkdir(repo_build_dir)
         cmake(repo_build_dir,
