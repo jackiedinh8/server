@@ -1,0 +1,17 @@
+1. create tritonserver_buildbase with Dockerfile.buildbase
+2. use tritonserver_buildbase to create container 'tritonserver_builder'
+3. save container 'tritonserver_builder' as 'tritonserver_builder_image' image
+4. create tritonserver_build with Dockerfile.build (use content of tritonserver_builder_image, base from tritonerver_buildbase)
+5. create tritonsevver from tritonserver_build with Dockerfile
+
+version 2.10.0
+container version 21.05
+upstream container version 21.05
+backend "tensorrt" at tag/branch "r21.05"
+backend "pytorch" at tag/branch "r21.05"
+buildbase container ['docker', 'build', '-f', './Dockerfile.buildbase', '--pull', '--cache-from=tritonserver_buildbase', '--cache-from=tritonserver_buildbase_cache0', '--cache-from=tritonserver_buildbase_cache1']
+
+------ tritonserver_buildbase image created -----
+
+building tritonserver_builder
+['docker', 'run', '--name', 'tritonserver_builder', '-w', '/workspace', '-v', '/var/run/docker.sock:/var/run/docker.sock', 'tritonserver_buildbase', 'python3', './build.py', '-v', '--upstream-container-version=21.05', '--cmake-dir=./build', '--build-dir=./', '--install-dir=/home/jackie/workspace/aistack/tensorrt/workspace', '--enable-logging', '--enable-stats', '--enable-tracing', '--enable-metrics', '--enable-gpu', '--endpoint=http', '--endpoint=grpc', '--repo-tag=common:r21.05', '--repo-tag=core:r21.05', '--repo-tag=backend:r21.05', '--repo-tag=thirdparty:r21.05', '--backend=tensorrt:r21.05', '--backend=pytorch:r21.05', '--no-container-build', '--version', '2.10.0', '--container-version', '21.05', '--upstream-container-version', '21.05', '--cmake-dir', '/workspace/build', '--build-dir', '/tmp/tritonbuild', '--install-dir', '/tmp/tritonbuild/install']
