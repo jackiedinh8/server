@@ -257,8 +257,9 @@ def core_cmake_args(components, backends, install_dir):
 
     for be in (CORE_BACKENDS + NONCORE_BACKENDS):
         if not be.startswith('tensorflow'):
-            cargs.append('-DTRITON_ENABLE_{}={}'.format(
+            cargs.append('-DTRITON_ENABLE_{}:BOOL={}'.format(
                 be.upper(), cmake_enable(be in backends)))
+            print('enable backend: {} {}'.format(be, cmake_enable(be in backends)))
         if (be in CORE_BACKENDS) and (be in backends):
             if be == 'tensorrt':
                 cargs += tensorrt_cmake_args()
@@ -820,6 +821,7 @@ def container_build(images, backends, repoagents):
         ]
         dockerrunargs += runargs
 
+        log_verbose('--------------------docker run tritonserver_builder-------------------------')
         log_verbose(dockerrunargs)
         p = subprocess.Popen(dockerrunargs)
         p.wait()
@@ -1226,6 +1228,7 @@ if __name__ == '__main__':
         #repo_build_dir = os.path.join(FLAGS.build_dir, 'tritonserver', 'build')
         repo_build_dir = os.path.join(FLAGS.build_dir)
 
+        #jackie: use install dir from arg
         if FLAGS.install_dir is None:
             repo_install_dir = os.path.join(FLAGS.build_dir, 'tritonserver',
                                            'install')
